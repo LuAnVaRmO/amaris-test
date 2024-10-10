@@ -1,6 +1,5 @@
 import boto3
 import json
-import uuid
 from decimal import Decimal
 
 dynamodb = boto3.resource('dynamodb')
@@ -27,18 +26,14 @@ def lambda_handler(event, context):
         )
         
         subscriptions = response.get('Items', [])
-
         usuario = usuarios_table.get_item(Key={'user_id': user_id})
-       
         response = {
             "name":usuario['Item']['nombre'],
             "saldo":usuario['Item']['saldo'],
             "phone":usuario['Item']['phone'],
             "email":usuario['Item']['email'],
             "subscriptions": subscriptions
-
         }
-
         return {
             "statusCode": 200,
             "headers": {
